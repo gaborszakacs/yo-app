@@ -15,6 +15,10 @@ func TestRespond(t *testing.T) {
 			input:            "yo",
 			expectedResponse: "yo",
 		},
+		{
+			input:            "not-yo",
+			expectedResponse: "???",
+		},
 	}
 	for _, tC := range testCases {
 		t.Run(tC.input, func(t *testing.T) {
