@@ -2,24 +2,27 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"os"
 
-	"github.com/gaborszakacs/yo/response"
+	"github.com/gaborszakacs/yo-app/chatbot"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+func main() {
+	http.Handle("/", http.FileServer(http.Dir("static")))
+	http.HandleFunc("/responses", responsesHandler)
+	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 }
 
 // NewResponseParams is the format expected when creating a new response
 type NewResponseParams struct {
-	To string
+	Input string
 }
 
-// ResponseResponse is the format expected when creating a new response
-type ResponseResponse struct {
-	response string
+// Conversation is responded when a new response is requsted
+type Conversation struct {
+	Input    string `json:"input"`
+	Response string `json:"response"`
 }
 
 func responsesHandler(w http.ResponseWriter, request *http.Request) {
@@ -32,15 +35,7 @@ func responsesHandler(w http.ResponseWriter, request *http.Request) {
 		panic(err)
 	}
 
-	fmt.Println(rp.To)
-	resp := response.R{Response: "jani"}
+	resp := Conversation{Response: chatbot.Respond(rp.Input), Input: rp.Input}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
-
-}
-
-func main() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/responses", responsesHandler)
-	http.ListenAndServe(":8080", nil)
 }
