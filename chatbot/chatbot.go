@@ -1,6 +1,10 @@
 package chatbot
 
-// Respond gives a response to a user input
+// Respond gives a response to a user input, yo
 func Respond(input string) string {
-	return "yo"
+	if input == "yo" {
+		return "yo"
+	} else {
+		return "???"
+	}
 }
