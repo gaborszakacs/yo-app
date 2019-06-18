@@ -16,6 +16,10 @@ func TestRespond(t *testing.T) {
 			expectedResponse: "yo",
 		},
 		{
+			input:            "yo-yo",
+			expectedResponse: "yo-yo",
+    },
+    {
 			input:            "not-yo",
 			expectedResponse: "???",
 		},
