@@ -6,5 +6,11 @@ func Respond(input string) string {
 		return "yo-yo"
 	} else {
 		return "yo"
+  }
+  
+	if input == "yo" {
+		return "yo"
+	} else {
+		return "???"
 	}
 }
